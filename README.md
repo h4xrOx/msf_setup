@@ -51,7 +51,7 @@ sudo apt-get update
 sudo apt-get upgrade 
 cd /etc
 sudo git clone https://github.com/rapid7/metasploit-framework.git
-sudo chown -R `whoami` /opt/metasploit-framework
+sudo chown -R `whoami` /etc/metasploit-framework
 ```
 # Install rbenv & ruby
 * if you do not care to change ruby versions, you do not need to install rvm or rbenv ( I sugguest you do ) 
@@ -89,7 +89,7 @@ bundle install
 ```
 ```
 cd metasploit-framework
-sudo bash -c 'for MSF in $(ls msf*); do ln -s /opt/metasploit-framework/$MSF /usr/local/bin/$MSF;done'
+sudo bash -c 'for MSF in $(ls msf*); do ln -s /etc/metasploit-framework/$MSF /usr/local/bin/$MSF;done'
 ```
 # Install NMAP
 ```
@@ -287,10 +287,10 @@ address        mac                name       os_name  os_flavor  os_sp  purpose 
 
 - Open a text editor, like vim, and enter the following:
 ```
-vim /opt/framework/config/database.yml
+vim /etc/framework/config/database.yml
 ```
 ```
-nano /opt/framework/config/database.yml
+nano /etc/framework/config/database.yml
 ```
 # add this Note: The database, username, password, and port attributes need to be updated with the values you've chosen for your database.
 ```
@@ -316,12 +316,12 @@ timeout: 5
 ```
 # Start the database
 ```
-db_connect -y /opt/metasploit/config/database.yml
+db_connect -y /etc/metasploit/config/database.yml
 ```
 
 # To copy database.yml to the .msf4 folder, run the following command:
 ```
-cp /opt/framework/config/database.yml /root/.msf4/
+cp /etc/framework/config/database.yml /root/.msf4/
 ```
 
 # Usage: msfdb [options] example: msfdb start
