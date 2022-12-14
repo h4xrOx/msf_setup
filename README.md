@@ -48,11 +48,18 @@ sudo apt-get -y install oracle-java8-installer
 # Install Metasploit-Framework
 ```
 sudo apt-get update
-sudo apt-get upgradecd /opt
+sudo apt-get upgrade 
+cd /etc
 sudo git clone https://github.com/rapid7/metasploit-framework.git
 sudo chown -R `whoami` /opt/metasploit-framework
 ```
 # Install rbenv & ruby
+* if you do not care to change ruby versions, you do not need to install rvm or rbenv ( I sugguest you do ) 
+* but if your not this will do:
+```
+sudo apt install ruby-dev
+```
+# Install ruby with rbenv
 ```
 cd ~
 git clone git://github.com/sstephenson/rbenv.git .rbenv
