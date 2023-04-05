@@ -24,7 +24,7 @@ sudo apt update
 ```
 # if you want to use GUI graphical user interface:
 
-https://www.kali.org/docs/wsl/win-kex/win-kex-sl.png
+![image](https://user-images.githubusercontent.com/65768277/230106104-2423a010-9e37-49b2-940b-e4f1062b9d1d.png)
 ```
 sudo apt install -y kali-win-kex
 ```
@@ -38,6 +38,8 @@ kex --sl -s
 ```
 kex
 ```
+- Full documentation on Win-KeX: https://www.kali.org/docs/wsl/win-kex/
+
 # INSTALLING METASPLOIT-FRAMEWORK & DEPENDANCIES 
 ```
 sudo apt install openssh-client
