@@ -29,8 +29,14 @@ https://www.kali.org/docs/wsl/win-kex/win-kex-sl.png
 sudo apt install -y kali-win-kex
 ```
 # To start Win-KeX in Seamless mode with sound support, run
+
 ```
 kex --sl -s
+```
+# To start Xtigervnc
+![image](https://user-images.githubusercontent.com/65768277/230105294-4fbde379-ccab-4818-a4fc-50882bb638eb.png)
+```
+kex
 ```
 # INSTALLING METASPLOIT-FRAMEWORK & DEPENDANCIES 
 ```
